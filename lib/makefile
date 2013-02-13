@@ -1,11 +1,14 @@
 include config.mk
 
 #CC += -faddress-sanitizer -fno-omit-frame-pointer
-CFLAGS := -O3 -ffast-math -Wall $(CFLAGS)# -fprofile-arcs -ftest-coverage
+CFLAGS := -fPIC -O3 -ffast-math -Wall $(CFLAGS)# -fprofile-arcs -ftest-coverage
 
 .PHONY: all clean
 
 all: libccv.a
+
+libsimpleccv.so: simpleccv.o
+	$(CC) -shared -o libsimpleccv.so simpleccv.o libccv.a $(LDFLAGS)
 
 clean:
 	rm -f *.o 3rdparty/sha1/*.o 3rdparty/sfmt/*.o 3rdparty/kissfft/*.o 3rdparty/dsfmt/*.o libccv.a
